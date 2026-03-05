@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Logesh L | Embedded Systems Portfolio</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f1a2e;
+      --text:#e9eefc;
+      --muted:#b6c2ff;
+      --accent:#ffd400;
+      --line:rgba(255,255,255,.12);
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 600px at 12% 10%, rgba(255,212,0,.18), transparent 45%),
+        radial-gradient(900px 500px at 85% 30%, rgba(182,194,255,.16), transparent 55%),
+        var(--bg);
+      color:var(--text);
+    }
+    a{ color:inherit; text-decoration:none; }
+    .container{ width:min(1100px, 92%); margin:auto; }
+
+    .nav{
+      position:sticky; top:0; z-index:5;
+      backdrop-filter: blur(10px);
+      background:rgba(11,18,32,.55);
+      border-bottom:1px solid var(--line);
+    }
+    .nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:14px 0; }
+    .brand{ font-weight:900; letter-spacing:.4px; }
+    .brand span{ color:var(--accent); }
+    .links{ display:flex; gap:16px; font-size:14px; color:var(--muted); flex-wrap:wrap; justify-content:flex-end; }
+    .links a:hover{ color:var(--text); }
+
+    header{ padding:52px 0 12px; }
+    .hero{ display:grid; grid-template-columns: 1.2fr .8fr; gap:18px; align-items:stretch; }
+    .card{
+      background:rgba(15,26,46,.72);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      padding:18px;
+    }
+    .badge{
+      display:inline-flex; gap:10px; align-items:center;
+      padding:8px 12px; border:1px solid var(--line);
+      border-radius:999px; color:var(--muted); font-size:13px;
+      margin-bottom:10px;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:99px;
+      background:var(--accent);
+      box-shadow:0 0 18px rgba(255,212,0,.7);
+    }
+    h1{ font-size: clamp(28px, 3.3vw, 44px); margin:10px 0 8px; line-height:1.1; }
+    .sub{ color:var(--muted); font-size:16px; line-height:1.6; margin:0 0 14px; }
+    .cta{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+    .btn{
+      padding:12px 14px; border-radius:12px;
+      border:1px solid var(--line); background:transparent; color:var(--text);
+      font-weight:650; font-size:14px; display:inline-flex; gap:10px; align-items:center;
+    }
+    .btn.primary{
+      background:linear-gradient(135deg, rgba(255,212,0,.22), rgba(182,194,255,.12));
+      border-color:rgba(255,212,0,.35);
+    }
+    .btn:hover{ transform: translateY(-1px); transition:.15s; box-shadow: var(--shadow); }
+
+    section{ padding:30px 0; }
+    .section-title{ font-size:20px; margin:0 0 14px; }
+    .grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; }
+    .two-col{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
+    .item h3{ margin:0 0 6px; font-size:16px; }
+    .item p{ margin:0; color:var(--muted); line-height:1.55; font-size:14px; }
+    .pill{
+      display:inline-block; padding:6px 10px;
+      border:1px solid var(--line); border-radius:999px;
+      margin:6px 6px 0 0; color:var(--muted); font-size:12px;
+    }
+    .list{ margin:10px 0 0; padding-left:18px; color:var(--muted); }
+    .list li{ margin:6px 0; }
+
+    .accordion{ display:grid; gap:12px; }
+    details{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:rgba(255,255,255,.03);
+      overflow:hidden;
+    }
+    summary{
+      cursor:pointer;
+      list-style:none;
+      padding:14px 14px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      user-select:none;
+    }
+    summary::-webkit-details-marker{ display:none; }
+    .sum-left{ display:grid; gap:6px; }
+    .sum-title{ font-weight:800; }
+    .sum-sub{ color:var(--muted); font-size:13px; line-height:1.4; }
+    .sum-right{
+      color:var(--muted);
+      font-size:12px;
+      border:1px solid var(--line);
+      padding:6px 10px;
+      border-radius:999px;
+      white-space:nowrap;
+      margin-top:2px;
+    }
+    .details-body{
+      border-top:1px solid var(--line);
+      padding:14px;
+    }
+    .links-row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+    .link{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:10px 12px; border-radius:12px;
+      border:1px solid var(--line); background:rgba(255,255,255,.03);
+      font-size:13px; color:var(--text);
+    }
+    .link:hover{ box-shadow: var(--shadow); transform: translateY(-1px); transition:.15s; }
+
+    footer{ padding:24px 0 40px; color:var(--muted); border-top:1px solid var(--line); }
+
+    @media (max-width: 900px){
+      .hero{ grid-template-columns: 1fr; }
+      .grid{ grid-template-columns: 1fr; }
+      .two-col{ grid-template-columns: 1fr; }
+      .links{ display:none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="nav">
+    <div class="container nav-inner">
+      <div class="brand">Logesh<span> L</span></div>
+      <div class="links">
+        <a href="#about">About</a>
+        <a href="#offer">Offer</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#profiles">Coding Profiles</a>
+        <a href="#education">Education</a>
+        <a href="#experience">Experience</a>
+        <a href="#publications">Publications</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <div class="container hero">
+      <div class="card">
+        <div class="badge"><span class="dot"></span> Embedded Systems • IoT • DSP • STM32</div>
+        <h1>Embedded Systems Postgraduate</h1>
+        <p class="sub">
+          Strong fundamentals in microcontrollers, real-time systems, DSP, and IoT.
+          Hands-on experience with STM32 peripherals (ADC/DMA/Timers), edge AI deployment,
+          and embedded debugging. Seeking embedded/firmware internship opportunities.
+        </p>
+        <div class="cta">
+          <a class="btn primary" href="#projects">View Projects ↓</a>
+          <a class="btn" href="#profiles">Coding Profiles</a>
+          <a class="btn" href="#contact">Contact</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Quick Info</h2>
+        <div class="item">
+          <p><b>Email:</b> <a href="mailto:llogesh2511@gmail.com">llogesh2511@gmail.com</a></p>
+          <p><b>Phone:</b> <a href="tel:+919345504583">+91 93455 04583</a></p>
+          <p><b>LinkedIn:</b> <a href="https://linkedin.com/in/logesh-l-7a46ab244a" target="_blank" rel="noreferrer">
+            linkedin.com/in/logesh-l-7a46ab244a</a></p>
+          <p><b>Location:</b> Tamil Nadu, India</p>
+        </div>
+        <div style="margin-top:12px; color:var(--muted); font-size:13px; line-height:1.5;">
+          <b>Note:</b> All project source code is available in my GitHub repositories.
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title">About</h2>
+      <div class="card item">
+        <p>
+          I enjoy building complete embedded systems (sensor → acquisition → processing → output/visualization).
+          Interested in firmware development, silicon/board validation, peripheral bring-up, and real-time processing.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="offer">
+    <div class="container">
+      <h2 class="section-title">Internship Offer</h2>
+      <div class="card item">
+        <h3>Intel — Silicon Validation Eng Graduate Intern (Offer)</h3>
+        <p>
+          Received an internship offer for the role <b>Silicon Validation Eng Graduate Intern</b> at Intel.
+          Interested in validation workflows, test automation, debugging, and hardware–software integration.
+        </p>
+        <div style="margin-top:10px;">
+          <span class="pill">Validation</span>
+          <span class="pill">Debug</span>
+          <span class="pill">Firmware</span>
+          <span class="pill">Hardware bring-up</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container">
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="grid">
+        <div class="card item">
+          <h3>Programming</h3>
+          <p>C, C++, Embedded C, Python</p>
+        </div>
+        <div class="card item">
+          <h3>MCUs & Interfaces</h3>
+          <p>STM32, ESP32, Arduino (I2C/UART/SPI, DMA)</p>
+        </div>
+        <div class="card item">
+          <h3>Tools</h3>
+          <p>STM32CubeIDE, CMSIS-DSP, NanoEdge AI Studio, MATLAB, Proteus, EasyEDA, Siemens PLC</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+      <h2 class="section-title">Projects (Click to Expand)</h2>
+
+      <div class="accordion">
+        <details>
+          <summary>
+            <div class="sum-left">
+              <div class="sum-title">Real-Time Audio Sampling & FFT (STM32L476RG)</div>
+              <div class="sum-sub">Timer-triggered ADC + DMA + CMSIS-DSP FFT, UART peak reporting.</div>
+            </div>
+            <div class="sum-right">DSP • ADC • DMA</div>
+          </summary>
+          <div class="details-body">
+            <ul class="list">
+              <li><b>Sampling:</b> 8 kHz timer-triggered ADC sampling.</li>
+              <li><b>DMA:</b> Continuous buffer fill; FFT starts on callback.</li>
+              <li><b>FFT:</b> 1024-point FFT using CMSIS-DSP and magnitude spectrum.</li>
+              <li><b>Output:</b> Peak frequency printed via UART.</li>
+            </ul>
+            <div class="links-row">
+              <a class="link" href="Audio-FFT-STM32.pdf" target="_blank" rel="noreferrer">📄 Report PDF</a>
+              <a class="link" href="https://github.com/logesh2511" target="_blank" rel="noreferrer">💻 Source Code (GitHub)</a>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <div class="sum-left">
+              <div class="sum-title">Motion Data Logger & Anomaly Detection (MPU6050 + NanoEdgeAI)</div>
+              <div class="sum-sub">6-axis IMU data logging and on-device anomaly detection on STM32.</div>
+            </div>
+            <div class="sum-right">Edge AI • I2C</div>
+          </summary>
+          <div class="details-body">
+            <ul class="list">
+              <li><b>Sensor:</b> MPU6050 over I2C.</li>
+              <li><b>Logging:</b> UART output suitable for NanoEdge AI Studio.</li>
+              <li><b>ML:</b> NanoEdge anomaly model integrated into firmware.</li>
+            </ul>
+            <div class="links-row">
+              <a class="link" href="MPU6050-NanoEdgeAI-STM32.pdf" target="_blank" rel="noreferrer">📄 Report PDF</a>
+              <a class="link" href="https://github.com/logesh2511" target="_blank" rel="noreferrer">💻 Source Code (GitHub)</a>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <div class="sum-left">
+              <div class="sum-title">Memory Management Simulator (C, 64 KB Heap)</div>
+              <div class="sum-sub">Linked-list heap simulation, fragmentation analysis and compaction.</div>
+            </div>
+            <div class="sum-right">C • OS</div>
+          </summary>
+          <div class="details-body">
+            <ul class="list">
+              <li>64 KB heap simulation using linked list segments.</li>
+              <li>Allocation with split/merge and fragmentation reporting.</li>
+              <li>Compaction support to reduce external fragmentation.</li>
+            </ul>
+            <div class="links-row">
+              <a class="link" href="Memory-Management-Simulator.pdf" target="_blank" rel="noreferrer">📄 Report PDF</a>
+              <a class="link" href="https://github.com/logesh2511" target="_blank" rel="noreferrer">💻 Source Code (GitHub)</a>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div style="height:18px;"></div>
+      <h2 class="section-title">More Projects (From Resume)</h2>
+
+      <div class="accordion">
+        <details>
+          <summary>
+            <div class="sum-left">
+              <div class="sum-title">V2V Communication Between ESP32 Vehicles (ESP-NOW)</div>
+              <div class="sum-sub">Wireless communication + control logic using ESP-NOW.</div>
+            </div>
+            <div class="sum-right">ESP32 • Wireless</div>
+          </summary>
+          <div class="details-body">
+            <ul class="list">
+              <li>Developed ESP-NOW messaging between robotic vehicles.</li>
+              <li>Tested control messages and verified communication range.</li>
+            </ul>
+            <div class="links-row">
+              <a class="link" href="https://github.com/logesh2511" target="_blank" rel="noreferrer">💻 Source Code (GitHub)</a>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <div class="sum-left">
+              <div class="sum-title">Smart Coffee Vending Machine</div>
+              <div class="sum-sub">Embedded automation + bring-up; published in a conference paper.</div>
+            </div>
+            <div class="sum-right">Embedded</div>
+          </summary>
+          <div class="details-body">
+            <ul class="list">
+              <li>Embedded automation workflow for vending control.</li>
+              <li>Manual soldering + hardware bring-up and testing.</li>
+            </ul>
+            <div class="links-row">
+              <a class="link" href="https://github.com/logesh2511" target="_blank" rel="noreferrer">💻 Source Code (GitHub)</a>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <div class="sum-left">
+              <div class="sum-title">Smart Health Monitoring & Tracking for Soldiers (LoRa + HC-12)</div>
+              <div class="sum-sub">Long-range monitoring using LoRa and HC-12 modules.</div>
+            </div>
+            <div class="sum-right">IoT • LoRa</div>
+          </summary>
+          <div class="details-body">
+            <ul class="list">
+              <li>3-node architecture (control/leader/soldier).</li>
+              <li>Communication using LoRa and HC-12.</li>
+            </ul>
+            <div class="links-row">
+              <a class="link" href="https://github.com/logesh2511" target="_blank" rel="noreferrer">💻 Source Code (GitHub)</a>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <div class="sum-left">
+              <div class="sum-title">E-Cattle Health & Fertility Monitoring (IoT + Custom PCB)</div>
+              <div class="sum-sub">IoT node design with custom PCB; IEEE conference paper.</div>
+            </div>
+            <div class="sum-right">IoT • PCB</div>
+          </summary>
+          <div class="details-body">
+            <ul class="list">
+              <li>Sensor-based embedded nodes with custom PCB.</li>
+              <li>Data monitoring and alerting concept.</li>
+            </ul>
+            <div class="links-row">
+              <a class="link" href="https://github.com/logesh2511" target="_blank" rel="noreferrer">💻 Source Code (GitHub)</a>
+            </div>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="profiles">
+    <div class="container">
+      <h2 class="section-title">Coding Profiles & GitHub</h2>
+      <div class="grid">
+        <div class="card item">
+          <h3>HackerRank</h3>
+          <p>
+            <a href="https://www.hackerrank.com/profile/llogesh2511" target="_blank" rel="noreferrer">
+              hackerrank.com/profile/llogesh2511
+            </a>
+          </p>
+        </div>
+        <div class="card item">
+          <h3>LeetCode</h3>
+          <p>
+            <a href="https://leetcode.com/u/logesh2511/" target="_blank" rel="noreferrer">
+              leetcode.com/u/logesh2511
+            </a>
+          </p>
+        </div>
+        <div class="card item">
+          <h3>GitHub (All Code)</h3>
+          <p>
+            <a href="https://github.com/logesh2511" target="_blank" rel="noreferrer">
+              github.com/logesh2511
+            </a>
+          </p>
+          <div style="margin-top:10px;">
+            <span class="pill">All project repositories</span>
+            <span class="pill">Source code</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="container">
+      <h2 class="section-title">Education</h2>
+      <div class="grid">
+        <div class="card item">
+          <h3>M.Tech – Embedded Systems (2025–2027)</h3>
+          <p>Amrita Vishwa Vidyapeetham, Bengaluru • <b>CGPA: 9.18</b></p>
+        </div>
+        <div class="card item">
+          <h3>B.E – Electrical and Electronics Engineering (2021–2025)</h3>
+          <p>Dr. NGP Institute of Technology, Coimbatore • <b>CGPA: 8.33</b></p>
+        </div>
+        <div class="card item">
+          <h3>Schooling</h3>
+          <p>HSC: 84.7% • SSLC: 78%</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="container">
+      <h2 class="section-title">Experience</h2>
+      <div class="two-col">
+        <div class="card item">
+          <h3>PLC Programmer (5 Months)</h3>
+          <p>Control System, Coimbatore</p>
+        </div>
+        <div class="card item">
+          <h3>PLC Automation Intern (1 Month)</h3>
+          <p>Spectrum Control System, Coimbatore</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="publications">
+    <div class="container">
+      <h2 class="section-title">Publications & Certifications</h2>
+      <div class="card item">
+        <ul class="list">
+          <li><b>IEEE Conference Paper:</b> E-Cattle Health Monitoring and Fertility Detector using IoT.</li>
+          <li><b>International Conference Paper:</b> Smart Coffee Vending Machine using Embedded Technology.</li>
+          <li><b>NPTEL:</b> Introduction to C Programming.</li>
+          <li><b>Udemy:</b> Fundamentals of Embedded Systems.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title">Contact</h2>
+      <div class="grid">
+        <div class="card item">
+          <h3>Email</h3>
+          <p><a href="mailto:llogesh2511@gmail.com">llogesh2511@gmail.com</a></p>
+        </div>
+        <div class="card item">
+          <h3>Phone</h3>
+          <p><a href="tel:+919345504583">+91 93455 04583</a></p>
+        </div>
+        <div class="card item">
+          <h3>LinkedIn</h3>
+          <p><a href="https://linkedin.com/in/logesh-l-7a46ab244a" target="_blank" rel="noreferrer">
+            linkedin.com/in/logesh-l-7a46ab244a</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      © <span id="year"></span> Logesh L • Embedded Systems Portfolio
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
